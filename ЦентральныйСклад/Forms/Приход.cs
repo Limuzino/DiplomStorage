@@ -19,6 +19,7 @@ namespace ЦентральныйСклад
             InitializeComponent();
         }
         Основное_окно основное_окно = new Основное_окно();
+        DataTable table = new DataTable();
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -26,13 +27,11 @@ namespace ЦентральныйСклад
             using (MySqlConnection conn = sqlConn.conn)
             {
                 conn.Open();
-
-                DataTable table = new DataTable();
-                BindingSource bSource = new BindingSource();
-                
                 table.Clear();
 
-                new MySqlDataAdapter(new MySqlCommand($"SELECT * FROM remains WHERE articleNumber = {textBox1.Text}", conn)
+                new MySqlDataAdapter(new MySqlCommand($"SELECT * " +
+                    $"FROM remains " +
+                    $"WHERE articleNumber = {textBox1.Text}", conn)
                         ).Fill(table);
 
                 if (table.Rows.Count == 1)
@@ -50,17 +49,16 @@ namespace ЦентральныйСклад
 
                     if (Convert.ToInt32(Auth.auth_role) <= 10)
                     {
-
-
                         try
                         {
-                            MySqlCommand cmd = new MySqlCommand("UPDATE remains SET quantity = quantity+@param2" +
+                            MySqlCommand cmd = new MySqlCommand("UPDATE remains " +
+                                "SET quantity = quantity+@param2 " +
                                 "WHERE articleNumber = @param1 AND categoryID = @param3", conn)
                             {
                                 Parameters =
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
-                                new MySqlParameter("@param2", Convert.ToString(textBox4.Text)),
+                                new MySqlParameter("@param2", Convert.ToDecimal(textBox4.Text.Replace('.', ','))),
                                 new MySqlParameter("@param3", Convert.ToString(Auth.auth_role))
                             }
                             };
@@ -75,13 +73,14 @@ namespace ЦентральныйСклад
                     {
                         try
                         {
-                            MySqlCommand cmd = new MySqlCommand("UPDATE remains SET quantity = quantity+@param2 " +
+                            MySqlCommand cmd = new MySqlCommand("UPDATE remains " +
+                                "SET quantity = quantity+@param2 " +
                                 "WHERE articleNumber = @param1 AND categoryID = @param3", conn)
                             {
                                 Parameters =
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
-                                new MySqlParameter("@param2", Convert.ToString(textBox4.Text)),
+                                new MySqlParameter("@param2", Convert.ToDecimal(textBox4.Text.Replace('.', ','))),
                                 new MySqlParameter("@param3", Convert.ToString(Auth.selectedCategory))
                             }
                             };
@@ -124,8 +123,6 @@ namespace ЦентральныйСклад
 
                     if (Convert.ToInt32(Auth.auth_role) <= 10)
                     {
-
-
                         try
                         {
                             MySqlCommand cmd = new MySqlCommand("INSERT INTO remains (articleNumber, productName, unitMeasurement, quantity, unitPrice, categoryID) " +
@@ -136,8 +133,8 @@ namespace ЦентральныйСклад
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
                                 new MySqlParameter("@param2", Convert.ToString(textBox2.Text)),
                                 new MySqlParameter("@param3", Convert.ToString(textBox3.Text)),
-                                new MySqlParameter("@param4", Convert.ToDecimal(textBox4.Text)),
-                                new MySqlParameter("@param5", Convert.ToDecimal(textBox5.Text)),
+                                new MySqlParameter("@param4", Convert.ToDecimal(textBox4.Text.Replace('.', ','))),
+                                new MySqlParameter("@param5", Convert.ToDecimal(textBox5.Text.Replace('.', ','))),
                                 new MySqlParameter("@param6", Convert.ToString(Auth.auth_role))
                             }
                             };
@@ -154,14 +151,14 @@ namespace ЦентральныйСклад
                         {
                             MySqlCommand cmd = new MySqlCommand("INSERT INTO remains (articleNumber, productName, unitMeasurement, quantity, unitPrice, categoryID) " +
                                 "VALUES (@param1, @param2, @param3, @param4, @param5, @param6)", conn)
-                            {
+                             {
                                 Parameters =
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
                                 new MySqlParameter("@param2", Convert.ToString(textBox2.Text)),
                                 new MySqlParameter("@param3", Convert.ToString(textBox3.Text)),
-                                new MySqlParameter("@param4", Convert.ToDecimal(textBox4.Text)),
-                                new MySqlParameter("@param5", Convert.ToDecimal(textBox5.Text)),
+                                new MySqlParameter("@param4", Convert.ToDecimal(textBox4.Text.Replace('.', ','))),
+                                new MySqlParameter("@param5", Convert.ToDecimal(textBox5.Text.Replace('.', ','))),
                                 new MySqlParameter("@param6", Convert.ToString(Auth.selectedCategory))
                             }
                             };
@@ -179,9 +176,9 @@ namespace ЦентральныйСклад
                     MessageBox.Show("Произошла ошибка работы данных! Обратитесь к администратору!");
                 }
                 conn.Close();
-                основное_окно.reload_list();
             }
-            
+            основное_окно.reload_list();
+
             textBox1.Text = "";
             textBox2.Text = "";
             textBox3.Text = "";
@@ -191,6 +188,8 @@ namespace ЦентральныйСклад
 
         private void button2_Click(object sender, EventArgs e)
         {
+            основное_окно.reload_list();
+
             textBox1.Text = "";
             textBox2.Text = "";
             textBox3.Text = "";

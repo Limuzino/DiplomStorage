@@ -22,41 +22,46 @@ namespace ЦентральныйСклад
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (String.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Вы не ввели артикул");
+                return;
+            }
+            else if (String.IsNullOrEmpty(textBox2.Text))
+            {
+                MessageBox.Show("Вы не ввели количество");
+                return;
+            }
+
             using (MySqlConnection conn = sqlConn.conn)
             {
                 conn.Open();
                 if (Convert.ToInt32(Auth.auth_role) <= 10)
                 {
-                    if (String.IsNullOrEmpty(textBox1.Text))
-                    {
-                        MessageBox.Show("Вы не ввели артикул");
-                        return;
-                    }
-                    else if (String.IsNullOrEmpty(textBox2.Text))
-                    {
-                        MessageBox.Show("Вы не ввели количество");
-                        return;
-                    }
-
                     try
                     {
-                        MySqlCommand cmd1 = new MySqlCommand("INSERT INTO expense (articleNumber, productName, unitMeasurement, quantity, unitPrice) SELECT articleNumber, productName, unitMeasurement, @param2, unitPrice FROM remains WHERE remains.articleNumber = @param1 AND remains.categoryID = @param3", conn)
+                        MySqlCommand cmd1 = new MySqlCommand("INSERT INTO expense (articleNumber, productName, unitMeasurement, quantity, unitPrice) " +
+                            "SELECT articleNumber, productName, unitMeasurement, @param2, unitPrice " +
+                            "FROM remains " +
+                            "WHERE remains.articleNumber = @param1 AND remains.categoryID = @param3", conn)
                         {
                             Parameters =
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
-                                new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text)),
+                                new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text.Replace('.', ','))),
                                 new MySqlParameter("@param3", Convert.ToString(Auth.auth_role))
                             }
                         };
                         cmd1.ExecuteNonQuery();
 
-                        MySqlCommand cmd2 = new MySqlCommand("UPDATE remains SET quantity = quantity-@param2 WHERE articleNumber = @param1 AND categoryID = @param3", conn)
+                        MySqlCommand cmd2 = new MySqlCommand("UPDATE remains " +
+                            "SET quantity = quantity-@param2 " +
+                            "WHERE articleNumber = @param1 AND categoryID = @param3", conn)
                         {
                             Parameters =
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
-                                new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text)),
+                                new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text.Replace('.', ','))),
                                 new MySqlParameter("@param3", Convert.ToString(Auth.auth_role))
                             }
                         };
@@ -71,23 +76,28 @@ namespace ЦентральныйСклад
                 {
                     try
                     {
-                        MySqlCommand cmd1 = new MySqlCommand("INSERT INTO expense (articleNumber, productName, unitMeasurement, quantity, unitPrice) SELECT articleNumber, productName, unitMeasurement, @param2, unitPrice FROM remains WHERE remains.articleNumber = @param1 AND remains.categoryID = @param3", conn)
+                        MySqlCommand cmd1 = new MySqlCommand("INSERT INTO expense (articleNumber, productName, unitMeasurement, quantity, unitPrice) " +
+                            "SELECT articleNumber, productName, unitMeasurement, @param2, unitPrice " +
+                            "FROM remains " +
+                            "WHERE remains.articleNumber = @param1 AND remains.categoryID = @param3", conn)
                         {
                             Parameters =
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
-                                new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text)),
+                                new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text.Replace('.', ','))),
                                 new MySqlParameter("@param3", Convert.ToString(Auth.selectedCategory))
                             }
                         };
                         cmd1.ExecuteNonQuery();
 
-                        MySqlCommand cmd2 = new MySqlCommand("UPDATE remains SET quantity = quantity-@param2 WHERE articleNumber = @param1 AND categoryID = @param3", conn)
+                        MySqlCommand cmd2 = new MySqlCommand("UPDATE remains " +
+                            "SET quantity = quantity-@param2 " +
+                            "WHERE articleNumber = @param1 AND categoryID = @param3", conn)
                         {
                             Parameters =
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
-                                new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text)),
+                                new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text.Replace('.', ','))),
                                 new MySqlParameter("@param3", Convert.ToString(Auth.selectedCategory))
                             }
                         };
