@@ -60,6 +60,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(15, 25);
+            this.textBox1.MaxLength = 11;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(150, 20);
             this.textBox1.TabIndex = 2;
@@ -67,6 +68,7 @@
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(15, 64);
+            this.textBox2.MaxLength = 10;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(150, 20);
             this.textBox2.TabIndex = 3;
