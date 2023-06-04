@@ -27,5 +27,7 @@ namespace ЦентральныйСклад
     {
         public static bool auth = false;
         public static string auth_role = null;
+        public static string selectedCategory;
     }
+
 }

@@ -11,7 +11,7 @@ namespace ЦентральныйСклад
 {
     static class sqlConn
     {
-        static string server = "192.168.0.100";
+        static string server = "109.191.87.56";
         static string port = "33333";
         static string user = "UlyanovTV";
         static string database = "diplom";

@@ -37,24 +37,32 @@ namespace ЦентральныйСклад
         {
             using (MySqlConnection conn = sqlConn.conn)
             {
-                conn.Open();
-                DataTable table = new DataTable();
-                new MySqlDataAdapter(new MySqlCommand("SELECT * FROM users WHERE login = @un and password = @up", conn)
+                try
                 {
-                    Parameters = { new MySqlParameter("@un", textBox1.Text), new MySqlParameter("@up", sha256(textBox2.Text)) }
-                }).Fill(table);
-                conn.Close();
+                    conn.Open();
+                    DataTable table = new DataTable();
+                    new MySqlDataAdapter(new MySqlCommand("SELECT * FROM users WHERE login = @un and password = @up", conn)
+                    {
+                        Parameters = { new MySqlParameter("@un", textBox1.Text), new MySqlParameter("@up", sha256(textBox2.Text)) }
+                    }).Fill(table);
+                    conn.Close();
 
-                if (table.Rows.Count > 0)
-                {
-                    Auth.auth = true;
-                    Auth.auth_role = table.Rows[0]["roleID"].ToString();
-                    this.Close();
+                    if (table.Rows.Count > 0)
+                    {
+                        Auth.auth = true;
+                        Auth.auth_role = table.Rows[0]["roleID"].ToString();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Неверные данные авторизации!");
+                    }
                 }
-                else
+                catch
                 {
-                    MessageBox.Show("Неверные данные авторизации!");
+                    MessageBox.Show("Подключение к серверу отсутствует!");
                 }
+                
             }
         }
 

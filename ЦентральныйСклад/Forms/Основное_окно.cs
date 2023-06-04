@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ЦентральныйСклад
 {
@@ -23,7 +24,6 @@ namespace ЦентральныйСклад
         {
             using (MySqlConnection conn = sqlConn.conn)
             {
-                string SelectedCategory = selectedCategory;
                 conn.Open();
                 BindingSource bSource = new BindingSource();
                 if (Convert.ToInt32(Auth.auth_role) <= 10)
@@ -33,7 +33,7 @@ namespace ЦентральныйСклад
                 }
                 else
                 {
-                    new MySqlDataAdapter(new MySqlCommand($"SELECT ID AS ID, articleNumber AS Артикул, productName AS Товар, unitMeasurement AS `Единицы измерения`, quantity AS Количество, unitPrice AS `Цена за единицу` FROM remains WHERE categoryID = '{selectedCategory}';", conn)
+                    new MySqlDataAdapter(new MySqlCommand($"SELECT ID AS ID, articleNumber AS Артикул, productName AS Товар, unitMeasurement AS `Единицы измерения`, quantity AS Количество, unitPrice AS `Цена за единицу` FROM remains WHERE categoryID = '{Auth.selectedCategory}';", conn)
                         ).Fill(table);
                 }
                 dataGridView1.DataSource = bSource.DataSource = table;
@@ -85,10 +85,6 @@ namespace ЦентральныйСклад
         public void reload_list()
         {
             this.table.Clear();
-            if (dataGridView1.Rows.Count > 0)
-            {
-                this.dataGridView1.Rows.Clear();
-            }
             this.GetListUsers();
         }
         private void ПриходButton_Click(object sender, EventArgs e)
@@ -104,18 +100,27 @@ namespace ЦентральныйСклад
         }
 
         private void ОтчётButton_Click(object sender, EventArgs e)
-        {
-            /*Excel.Application exApp = new Excel.Application();
-            exApp.Workbooks.Add();
-            Excel.Worksheet wsh = exApp.ActiveSheet;
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+        {/*
+            try
             {
-                for (int j = 0; j < dataGridView1.Columns.Count; j++)
+                Excel.Application exApp = new Excel.Application();
+                exApp.Workbooks.Add();
+                Excel.Worksheet wsh = exApp.ActiveSheet;
+                for (int i = 1; i < dataGridView1.Rows.Count; i++)
                 {
-                    wsh.Cells[i + 1, j + 1] = dataGridView1[j, i].Value?.ToString() ?? "";
+                    for (int j = 1; j < dataGridView1.Columns.Count-1; j++)
+                    {
+                        wsh.Cells[1, j] = dataGridView1.Columns[j].HeaderText.ToString();
+                        wsh.Cells[i + 1, j] = dataGridView1[j, i].Value.ToString();
+                    }
                 }
+                exApp.Visible = true;
             }
-            exApp.Visible = true;*/
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            */
         }
 
         private void Основное_окно_Load(object sender, EventArgs e)
@@ -143,65 +148,64 @@ namespace ЦентральныйСклад
                 ПросмотрDropDownButton.Enabled = true;
             }
         }
-        public static string selectedCategory;
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            selectedCategory = "1";
+            Auth.selectedCategory = "1";
             reload_list();
         }
 
         private void полуфабрикатыКомплектующиеИзделияКонструкцииИДеталиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "2";
+            Auth.selectedCategory = "2";
             reload_list();
         }
 
         private void топливоToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "3";
+            Auth.selectedCategory = "3";
             reload_list();
         }
 
         private void тараИТарныеМатериалыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "4";
+            Auth.selectedCategory = "4";
             reload_list();
         }
 
         private void запасныеЧастиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "5";
+            Auth.selectedCategory = "5";
             reload_list();
         }
 
         private void прочиеМатериалыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "6";
+            Auth.selectedCategory = "6";
             reload_list();
         }
 
         private void материалыПереданныеВПереработкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "7";
+            Auth.selectedCategory = "7";
             reload_list();
         }
 
         private void строительныеМатериалыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "8";
+            Auth.selectedCategory = "8";
             reload_list();
         }
 
         private void спецоснасткаИСпецодеждаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "10";
+            Auth.selectedCategory = "10";
             reload_list();
         }
 
         private void инвентарьИХозпринадлежностиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedCategory = "9";
+            Auth.selectedCategory = "9";
             reload_list();
         }
     }

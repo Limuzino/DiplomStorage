@@ -134,6 +134,7 @@
             // 
             // button2
             // 
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(150, 207);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(134, 54);
@@ -144,8 +145,10 @@
             // 
             // Приход
             // 
+            this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(304, 274);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -159,6 +162,8 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "Приход";
             this.Text = "Приход";
             this.Load += new System.EventHandler(this.Приход_Load);

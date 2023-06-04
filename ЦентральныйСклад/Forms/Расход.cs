@@ -77,7 +77,7 @@ namespace ЦентральныйСклад
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
                                 new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text)),
-                                new MySqlParameter("@param3", Convert.ToString(Основное_окно.selectedCategory))
+                                new MySqlParameter("@param3", Convert.ToString(Auth.selectedCategory))
                             }
                         };
                         cmd1.ExecuteNonQuery();
@@ -88,11 +88,11 @@ namespace ЦентральныйСклад
                             {
                                 new MySqlParameter("@param1", Convert.ToString(textBox1.Text)),
                                 new MySqlParameter("@param2", Convert.ToDecimal(textBox2.Text)),
-                                new MySqlParameter("@param3", Convert.ToString(Основное_окно.selectedCategory))
+                                new MySqlParameter("@param3", Convert.ToString(Auth.selectedCategory))
                             }
                         };
                         cmd2.ExecuteNonQuery();
-                        основное_окно.reload_list();
+                        
                     }
                     catch (Exception ex)
                     {
@@ -100,7 +100,7 @@ namespace ЦентральныйСклад
                     }
                 }
                 conn.Close();
-
+                основное_окно.GetListUsers();
             }
 
             textBox1.Text = "";

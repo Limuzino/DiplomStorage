@@ -48,6 +48,7 @@
             // 
             // button2
             // 
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(15, 137);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(150, 40);
@@ -90,8 +91,10 @@
             // 
             // Расход
             // 
+            this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(181, 191);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -99,6 +102,8 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "Расход";
             this.Text = "Расход";
             this.ResumeLayout(false);
