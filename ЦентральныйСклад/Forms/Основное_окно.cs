@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using Excel = Microsoft.Office.Interop.Excel;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ЦентральныйСклад
 {
@@ -100,7 +100,7 @@ namespace ЦентральныйСклад
         }
 
         private void ОтчётButton_Click(object sender, EventArgs e)
-        {/*
+        {
             try
             {
                 Excel.Application exApp = new Excel.Application();
@@ -120,7 +120,7 @@ namespace ЦентральныйСклад
             {
                 MessageBox.Show(ex.Message);
             }
-            */
+            
         }
 
         private void Основное_окно_Load(object sender, EventArgs e)
